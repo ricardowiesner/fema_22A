@@ -19,7 +19,7 @@ function App() {
       lista[index].nota1 = parseFloat(nota1);
       lista[index].nota2 = parseFloat(nota2);
       lista[index].media = ((lista[index].nota1 + lista[index].nota2) / 2).toFixed(2);
-  
+
       setLista([...lista]);
     } else {
       let nota = {
@@ -29,15 +29,15 @@ function App() {
         nota2: parseFloat(nota2),
         media: 0
       };
-  
+
       nota.media = ((nota.nota1 + nota.nota2)).toFixed(2);
-  
+
       lista.push(nota);
       setLista([...lista]);
 
     }
 
-    
+
 
     setId('');
     setNome('');
@@ -77,13 +77,13 @@ function App() {
 
         <div className="mb-3  col-md-4">
           <label className="form-label">Nota 2</label>
-          <input type="text" className="form-control" value={nota2}  onChange={(event) => setNota2(event.target.value)} />
+          <input type="text" className="form-control" value={nota2} onChange={(event) => setNota2(event.target.value)} />
         </div>
 
         <div className='col-md-12'>
-        <button type="button" className="btn btn-primary " onClick={adicionar}>Adicionar</button>
+          <button type="button" className="btn btn-primary " onClick={adicionar}>Adicionar</button>
         </div>
-        
+
       </form>
 
 
@@ -106,7 +106,7 @@ function App() {
                   <td>{n.nome}</td>
                   <td>{n.nota1}</td>
                   <td>{n.nota2}</td>
-                  <td>{n.media}</td>
+                  <td className={`btn ${n.media > 7} ? 'saaaa' : '' `}>{n.media}</td>
                   <td>
                     <button className="btn btn-primary" onClick={() => editar(n.id)}>[editar]</button>
                   </td>
