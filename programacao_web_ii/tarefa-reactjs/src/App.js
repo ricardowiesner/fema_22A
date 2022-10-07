@@ -4,32 +4,55 @@ import './App.css';
 
 function App() {
 
-  const [id, setId] = useState();
+  const [codigo, setCodigo] = useState();
   const [descricao, setDescricao] = useState('');
   const [listaTarefa, setListaTarefa] = useState([]);
+
+  
 
   useEffect(() => {
     buscar();
   }, []);
 
+
   function buscar() {
     axios.get('http://localhost:3100/tarefa').then(resultado => {
-      console.log(resultado.data);
       setListaTarefa(resultado.data);
     });
   }
+  
 
   function salvar(event) {
     event.preventDefault();
+
+
     let tarefa = {
-      id: id,
+      codigo: codigo,
       descricao: descricao
     };
 
     axios.put('http://localhost:3100/tarefa', tarefa).then(() => {
       buscar();
-    });    
+
+      setCodigo();
+      setDescricao('');
+    });
   }
+
+  function excluir(tarefa) {
+    axios.delete(`http://localhost:3100/tarefa/${tarefa.codigo}`).then((result) => {
+      buscar();
+    });
+  }
+
+  function editar(tarefa) {
+    axios.get(`http://localhost:3100/tarefa/${tarefa.codigo}`).then((result) => {
+      console.log(result);
+      setCodigo(result.data.codigo);
+      setDescricao(result.data.descricao);
+    });
+  }
+
 
   return (
     <div className="container">
@@ -37,8 +60,8 @@ function App() {
       <form onSubmit={(event) => salvar(event)}>
         <div className="mb-3">
           <label className="form-label">Descrição</label>
-          <input type="text" className="form-control" 
-            value={descricao} 
+          <input type="text" className="form-control"
+            value={descricao}
             onChange={(event) => setDescricao(event.target.value)} />
         </div>
 
@@ -61,13 +84,16 @@ function App() {
               <tr key={index}>
                 <td>{tarefa.descricao}</td>
                 <td>
-                  <button type="button" className="btn btn-link">[editar]</button>
-                  <button type="button" className="btn btn-link">[excluir]</button>
+                  <button type="button" className="btn btn-link" 
+                    onClick={(event) => editar(tarefa)}>[editar]</button>
+
+                  <button type="button" className="btn btn-link" 
+                    onClick={(event) => excluir(tarefa)} >[excluir]</button>
                 </td>
               </tr>
             ))
           }
-          
+
         </tbody>
       </table>
     </div>
