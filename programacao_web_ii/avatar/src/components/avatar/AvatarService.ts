@@ -21,4 +21,8 @@ export class AvatarService {
         
         console.log('list ' , AvatarService.list);
     }
+
+    static buscarPorId(id: string): Avatar | undefined {
+        return this.list.find(avatar => avatar.id == id);
+    }
 }
